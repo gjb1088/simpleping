@@ -3,4 +3,9 @@
   hosts: localhost
   tasks:
     - name: Ping a host
-      command: ping -c 4 8.8.8.8
+      shell: ping -c 4 8.8.8.8
+      register: ping_output
+
+    - name: Display ping results
+      debug:
+        msg: "{{ ping_output.stdout }}"
