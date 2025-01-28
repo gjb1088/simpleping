@@ -1,0 +1,6 @@
+# ping-test.yml
+- name: Test Ping
+  hosts: localhost
+  tasks:
+    - name: Ping a host
+      command: ping -c 4 8.8.8.8
