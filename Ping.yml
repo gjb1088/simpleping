@@ -1,9 +1,7 @@
-# ping-test.yml
-- name: Test Ping
-  ansible.builtin.command:
-  cmd: ping -c 4 8.8.8.8
-  register: ping_output
-
-- name: Display ping results
-  debug:
-    msg: "{{ ping_output.stdout }}"
+---
+- name: Test connectivity with ping
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: Ping the target
+      ansible.builtin.ping:
