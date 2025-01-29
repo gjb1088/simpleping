@@ -1,19 +1,20 @@
 ---
-- name: Ping google.com externally
+- name: Ping google.com and parse latency
   hosts: localhost
   gather_facts: no
   tasks:
-    - name: Run system ping command
+    - name: Run ping command
       command: ping -c 3 google.com
       register: ping_result
-      ignore_errors: yes  # allow the playbook to keep going even if ping fails
+      ignore_errors: yes
 
-    - name: Show success message
-      debug:
-        msg: "PING SUCCEEDED: {{ ping_result.stdout }}"
+    - name: Extract the avg latency from final line
+      set_fact:
+        ping_avg_latency: "{{ ping_result.stdout | regex_search('= (\\S+)/(\\S+)/(\\S+)/(\\S+) ms', '\\2') | default('N/A') }}"
       when: ping_result.rc == 0
 
-    - name: Show failure message
+    - name: Show results
       debug:
-        msg: "PING FAILED: {{ ping_result.stderr }}"
-      when: ping_result.rc != 0
+        msg: >
+          Ping to google.com {{ 'failed' if ping_result.rc != 0 else 'succeeded' }}.
+          Average latency: {{ ping_avg_latency }} ms
