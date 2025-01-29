@@ -1,10 +1,8 @@
 # ping-test.yml
 - name: Test Ping
-  hosts: localhost
-  tasks:
-    - name: Ping a host
-      shell: ping -c 4 8.8.8.8
-      register: ping_output
+  ansible.builtin.command:
+  cmd: ping -c 4 8.8.8.8
+  register: ping_output
 
     - name: Display ping results
       debug:
