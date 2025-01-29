@@ -4,6 +4,6 @@
   cmd: ping -c 4 8.8.8.8
   register: ping_output
 
-    - name: Display ping results
-      debug:
+- name: Display ping results
+    debug:
         msg: "{{ ping_output.stdout }}"
