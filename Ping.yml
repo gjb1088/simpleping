@@ -1,7 +1,19 @@
 ---
-- name: Test connectivity with ping
-  hosts: all
+- name: Ping google.com externally
+  hosts: localhost
   gather_facts: no
   tasks:
-    - name: Ping the target
-      ansible.builtin.ping:
+    - name: Run system ping command
+      command: ping -c 3 google.com
+      register: ping_result
+      ignore_errors: yes  # allow the playbook to keep going even if ping fails
+
+    - name: Show success message
+      debug:
+        msg: "PING SUCCEEDED: {{ ping_result.stdout }}"
+      when: ping_result.rc == 0
+
+    - name: Show failure message
+      debug:
+        msg: "PING FAILED: {{ ping_result.stderr }}"
+      when: ping_result.rc != 0
