@@ -5,5 +5,5 @@
   register: ping_output
 
 - name: Display ping results
-    debug:
-        msg: "{{ ping_output.stdout }}"
+  debug:
+    msg: "{{ ping_output.stdout }}"
